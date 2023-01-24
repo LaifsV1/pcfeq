@@ -1,0 +1,9 @@
+fun f -> fun i ->
+  let rec X j = f (X, fun () ->  j)
+  in X i
+
+|||_((((int -> int) * (unit -> int)) -> int) -> int -> int)
+
+let rec X count = fun f -> fun i ->
+  f ((fun j -> if (count > 0) then X (count-1) f j else _bot_), fun () -> i)
+in X 2

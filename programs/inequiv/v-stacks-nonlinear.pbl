@@ -1,0 +1,102 @@
+(* needs bound=19 *)
+
+fun f -> fun b ->
+  let rec X d = f (fun e -> if e then X
+                            else (fun _ ->  d))
+  in X b
+
+|||_((bool -> (bool -> bool)) -> bool) -> bool -> bool
+
+fun f -> fun b ->
+  f (fun e -> if e then (fun d -> _bot_)
+              else (fun _ ->  b))
+
+(***
+Distinguishing context (replace [] with the terms above)
+
+( [] )(fun fXd -> if (fXd false false) then fXd true false else true) true
+
+***)
+
+(* example 3 *)
+
+(** trace
+
+LHS trace:
+pr_ret idx_0
+op_app idx_0 af_0
+pr_ret idx_0
+op_app idx_0 ac_1
+pr_app af_0 (fun e -> (if e then (fix X. fun d -> (af_0 (fun e -> (if e then X else (fun _ -> d))))) else (fun _ -> ac_1)))
+op_app idx_0 (ac_2)
+pr_ret idx_0
+op_app idx_0 (ac_3)
+pr_ret (ac_1)
+op_app idx_1 (ac_4)
+pr_ret idx_0
+op_app idx_0 (ac_5)
+pr_app (af_0) (fun e -> (if e then (fix X. fun d -> ((af) (fun e -> (if e then X else (fun _ -> d))))) else (fun _  -> (ac_5))))
+op_app idx_0 (ac_2)
+pr_ret idx_0
+op_app idx_0 (ac_3)
+pr_ret (ac_5)
+op_ret (ac_6)
+pr_ret (ac_6)
+op_ret (ac_7)
+pr_ret (ac_7)
+
+RHS trace:
+pr_ret idx_0
+op_app idx_0 (af_0)
+pr_ret idx_0
+op_app idx_0 (ac_1)
+pr_app (af_0) (fun e -> (if e then (fun d -> _bot_) else (fun _ -> (ac_1))))
+op_app idx_0 (ac_2)
+pr_ret idx_0
+op_app idx_0 (ac_3)
+pr_ret (ac_1)
+op_app idx_1 (ac_4)
+pr_ret idx_0
+op_app idx_0 (ac_5)
+<DIVERGES>
+
+$M$:
+$\lpropret{0} \to 
+\lopapp{0}{\alpha_0} \to 
+\lpropret{0} \to  
+\lopapp{0}{c_1} \to
+\lpropapp{\alpha_0}{(\lambda \dots)} \to
+\lopapp{0}{c_2} \to
+\lpropret{0} \to 
+\lopapp{0}{c_3} \to
+\lpropret{c_1} \to 
+\lopapp{1}{c_4} \to
+\lpropret{0} \to 
+\lopapp{0}{c_5}
+\lpropapp{\alpha_0}{(\lambda \dots)} \to
+\lopapp{0}{c_2} \to
+\lpropret{0} \to 
+\lopapp{0}{c_3} \to
+\lpropret{5} \to 
+\lopret{c_6} \to
+\lpropret{6} \to 
+\lopret{c_7} \to
+\lpropret{7}
+$
+
+$N$:
+$\lpropret{0} \to 
+\lopapp{0}{\alpha_0} \to 
+\lpropret{0} \to  
+\lopapp{0}{c_1} \to
+\lpropapp{\alpha_0}{(\lambda \dots)} \to
+\lopapp{0}{c_2} \to
+\lpropret{0} \to 
+\lopapp{0}{c_3} \to
+\lpropret{c_1} \to 
+\lopapp{1}{c_4} \to
+\lpropret{0} \to 
+\lopapp{0}{c_5} \to
+\bot
+$
+**)

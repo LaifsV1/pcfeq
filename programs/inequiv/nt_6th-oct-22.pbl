@@ -1,0 +1,15 @@
+let rec X count = fun f -> fun i ->
+let code = if (count = 1) then 1 else 0 in
+f ((fun j -> if (count > 0) then X (count-1) f j else 0), 
+  (fun j -> if (code = j) then count else _bot_),
+  (fun g -> if (g code = count) then i else _bot_))
+in X 2
+
+|||_((((int -> int) * (int -> int) * ((int -> int) -> int)) -> int) -> int -> int)
+
+let rec X count = fun f -> fun i ->
+let code = if (count = 1) then 1 else 0 in
+  f ((fun j -> if (count > 0) then X (count-1) f j else _bot_), 
+         (fun j -> if (code = j) then count else _bot_),
+         (fun g -> if (g code = count) then i else _bot_))
+in X 2

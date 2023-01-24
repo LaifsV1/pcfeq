@@ -1,0 +1,61 @@
+fun fi ->
+  let (f, i) = fi in
+  let rec X j = f (X, j)
+  in X i
+
+|||_(((((int -> int) * int) -> int) *  int) -> int)
+
+let rec X cfi =
+  let (count, f, i) = cfi in
+  f ((fun j -> if (count > 0) then X (count-1, f, j) else _bot_), i) 
+in fun fi -> 
+  let (f, i) = fi in
+  X (5, f, i)
+
+
+(* distinguishing context
+
+let Y = (
+
+[]
+
+) in
+let f yi = let (YY, i) = yi in
+  if (i > 0) then YY (i-1) else 0
+in
+ Y (f,11)
+
+*)
+
+(* programs in context:
+let Y = (
+
+    fun fi ->
+      let (f, i) = fi in
+      let rec X j = f (X, j)
+      in X i
+
+) in
+let f yi = let (YY, i) = yi in
+  if (i > 0) then YY (i-1) else 0
+in
+  Y (f,11)
+
+|||_int
+
+let Y = (
+
+      let rec X cfi =
+        let (count, f, i) = cfi in
+        f ((fun j -> if (count > 0) then X (count-1, f, j) else _bot_), i) 
+      in fun fi -> 
+        let (f, i) = fi in
+        X (10, f, i)
+
+) in
+let f yi = let (YY, i) = yi in
+  if (i > 0) then YY (i-1) else 0
+in
+  Y (f,11)
+*)
+

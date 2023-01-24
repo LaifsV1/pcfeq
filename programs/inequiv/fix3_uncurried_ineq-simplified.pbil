@@ -1,0 +1,11 @@
+(* this is a divergence example *)
+
+fun f ->
+  let rec X () = f X
+  in X ()
+
+|||_((((unit -> unit) -> unit) ) -> unit)
+
+fun f ->
+  let rec X () = f (fun () -> ())
+  in X ()

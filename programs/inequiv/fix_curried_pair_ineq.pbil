@@ -1,0 +1,21 @@
+
+fun f -> 
+  ( (fun i ->
+      let rec X j = f X j
+      in X i),
+    (fun i ->
+      let rec X j = f X j
+      in X i) )
+
+|||_((int -> int) -> int -> int) -> ( (int -> int) * (int -> int) )
+
+fun f ->
+  let rec X count = 
+    ( (fun i ->
+        f (fun j ->
+            if (count > 0) then let (f1,f2) = X count in f1 j
+            else _bot_)
+          i),
+      (fun i ->
+        f (fun j -> let (f1,f2) = X (count-1) in f2 j ) i) )
+  in X 2

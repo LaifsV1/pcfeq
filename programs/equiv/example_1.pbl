@@ -1,0 +1,6 @@
+fun f -> fun g ->
+  if f () == g () then
+    (if f () == g () then 0 else 1)
+  else 2
+|||_(unit->int)->(unit->int)->int
+fun f -> fun g -> if g () == f () then 0 else 2

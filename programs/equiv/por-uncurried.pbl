@@ -1,0 +1,10 @@
+fun f ->
+ if (f ((fun () -> true), (fun () -> _bot_))) then
+   if (f ((fun () -> _bot_), (fun () -> true))) then
+     if (f ((fun () -> false), (fun () -> false))) then
+       _bot_
+     else true
+   else _bot_
+else _bot_
+|||_((((unit -> bool) * (unit -> bool)) -> bool) -> bool)
+fun f -> _bot_

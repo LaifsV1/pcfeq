@@ -1,0 +1,141 @@
+(* needs bound 24 *)
+
+fun f -> fun i ->
+  let rec X j = f X j
+  in X i
+
+|||_(((int -> int) -> int -> int) -> int -> int)
+
+let rec X count = fun f -> fun i ->
+  f (fun j -> if (count > 0) then X (count-1) f j else _bot_) i
+in X 1
+
+
+(* distinguishing context
+
+let Y = (
+
+[]
+
+) in
+let f YY = fun i ->
+  if (i > 0) then YY (i-1) else 0
+in
+  Y f 3
+
+*)
+
+(* programs in context: 
+
+let Y = (
+
+      fun f -> fun i ->
+        let rec X j = f X j
+        in X i
+
+) in
+let f YY = fun i ->
+  if (i > 0) then YY (i-1) else 0
+in
+  Y f 3
+
+|||_int
+
+let Y = (
+
+      let rec X count = fun f -> fun i ->
+        f (fun j -> if (count > 0) then X (count-1) f j else _bot_) i
+      in X 2
+
+) in
+let f YY = fun i ->
+  if (i > 0) then YY (i-1) else 0
+in
+  Y f 3
+
+*)
+
+
+(* example 4
+TRACE:
+
+LHS trace:
+pr_ret idx_0
+op_app idx_0 ($af_0)
+pr_ret idx_0
+op_app idx_0 ($ac_1)
+pr_app ($af_0) (fix X_23. fun j_24 -> ((($af_0) X_23) j_24))
+op_ret ($af_2)
+pr_app ($af_2) ($ac_1)
+op_app idx_0 ($ac_3)
+pr_app ($af_0) (fix X_32. fun j_33 -> ((($af_0) X_32) j_33))
+op_ret ($af_2)
+pr_app ($af_2) ($ac_3)
+op_app idx_0 ($ac_4)
+pr_app ($af_0) (fix X_45. fun j_46 -> ((($af_0) X_45) j_46))
+op_ret ($af_2)
+pr_app ($af_2) ($ac_4)
+op_ret ($ac_5)
+pr_ret ($ac_5)
+op_ret ($ac_6)
+pr_ret ($ac_6)
+op_ret ($ac_7)
+pr_ret ($ac_7)
+
+RHS trace:
+pr_ret idx_0
+op_app idx_0 ($af_0)
+pr_ret idx_0
+op_app idx_0 ($ac_1)
+pr_app ($af_0) (fun j_15 -> (if (> 1 0) then ((((fix X_16. fun count_17 -> (fun f_18 -> (fun i_19 -> ((f_18 (fun j_20 -> (if (> count_17 0) then (((X_16 (- count_17 1)) f_18) j_20) else _bot_))) i_19)))) (- 1 1)) ($af_0)) j_15) else _bot_))
+op_ret ($af_2)
+pr_app ($af_2) ($ac_1)
+op_app idx_0 ($ac_3)
+pr_app ($af_0) (fun j_20 -> (if (> 0 0) then ((((fix X_36. fun count_37 -> (fun f_38 -> (fun i_39 -> ((f_38 (fun j_40 -> (if (> count_37 0) then (((X_36 (- count_37 1)) f_38) j_40) else _bot_))) i_39)))) (- 0 1)) ($af_0) j_20) else _bot_))
+op_ret ($af_2)
+pr_app ($af_2) ($ac_3)
+op_app idx_0 ($ac_4)
+<DIVERGES>
+
+
+$M$:
+$\lpropret{0} \to 
+\lopapp{0}{\alpha_0} \to 
+\lpropret{0} \to  
+\lopapp{0}{c_1} \to
+\lpropapp{\alpha_0}{(\lambda \dots)} \to
+\lopret{\alpha_2} \to
+\lpropapp{\alpha_2}{c_1} \to
+\lopapp{0}{c_3} \to
+\lpropapp{\alpha_0}{(\lambda \dots)} \to
+\lopret{\alpha_2} \to
+\lpropapp{\alpha_2}{c_3} \to
+\lopapp{0}{c_4} \to
+\lpropapp{\alpha_0}{(\lambda \dots)} \to
+\lopret{\alpha_2} \to
+\lpropapp{\alpha_2}{c_4} \to
+\lopret{c_5} \to
+\lpropret{5} \to 
+\lopret{c_6} \to
+\lpropret{6} \to 
+\lopret{c_7} \to
+\lpropret{7}
+$
+
+$N$:
+$\lpropret{0} \to 
+\lopapp{0}{\alpha_0} \to 
+\lpropret{0} \to  
+\lopapp{0}{c_1} \to
+\lpropapp{\alpha_0}{(\lambda \dots)} \to
+\lopret{\alpha_2} \to
+\lpropapp{\alpha_2}{c_1} \to
+\lopapp{0}{c_3} \to
+\lpropapp{\alpha_0}{(\lambda \dots)} \to
+\lopret{\alpha_2} \to
+\lpropapp{\alpha_2}{c_3} \to
+\lopapp{0}{c_4} \to
+\bot
+$
+
+*)

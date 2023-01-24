@@ -1,0 +1,57 @@
+
+fun f -> 
+  let rec X j = f X j
+  in X
+
+|||_(((int -> int) -> int -> int) -> int -> int)
+
+fun f -> 
+  let rec X count = fun j -> 
+    if (count > 0) then f (X (count-1)) j else _bot_
+  in X 2
+
+
+(* distinguishing context
+
+let Y = (
+
+[]
+
+) in
+let f YY = fun i ->
+  if (i > 0) then YY (i-1) else 0
+in
+  Y f 3
+
+*)
+
+(* programs in context: 
+
+let Y = (
+
+  fun f -> 
+    let rec X j = f X j
+    in X
+
+) in
+let f YY = fun i ->
+  if (i > 0) then YY (i-1) else 0
+in
+  Y f 3
+
+|||_int
+
+let Y = (
+
+  fun f -> 
+    let rec X count = fun j -> 
+      if (count > 0) then f (X (count-1)) j else _bot_
+    in X 2
+
+) in
+let f YY = fun i ->
+  if (i > 0) then YY (i-1) else 0
+in
+  Y f 3
+
+*)

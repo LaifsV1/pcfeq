@@ -1,0 +1,17 @@
+(* needs bound=15 *)
+
+fun f -> fun i ->
+  let rec X j = f (X, fun () ->  j)
+  in X i
+
+|||_((((int -> int) * (unit -> int)) -> int) -> int -> int)
+
+fun f -> fun i ->
+  f ((fun _ -> _bot_), fun () ->  i)
+
+(***
+Distinguishing context (replace [] with the terms above)
+
+( [] )(fun xfj -> let (X, fj) = xfj in if (fj () == 0) then 0 else X 0) 1
+
+***)

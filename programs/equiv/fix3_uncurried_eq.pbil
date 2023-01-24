@@ -1,0 +1,14 @@
+fun fb ->
+  let (f, bound) = fb in  (* ignore the bound *)
+  let rec X () = f X
+  in X ()
+
+|||_((((unit -> unit) -> unit) *  int) -> unit)
+
+fun fb -> 
+  let (f, bound) = fb in
+  let rec X fb =
+    let (f, bound) = fb in
+    f (fun () -> if (bound > 0) then X (f, bound-1) else _bot_) 
+  in
+  X (f, bound)

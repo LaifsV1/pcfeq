@@ -1,0 +1,11 @@
+fun f ->
+  _bot_
+
+|||_(((unit -> unit) -> unit) -> unit)
+
+fun f -> 
+  let rec X fb =
+    let (f, bound) = fb in
+    f (fun () -> if (bound > 0) then X (f, bound-1) else ()) 
+  in
+  X (f, 5)

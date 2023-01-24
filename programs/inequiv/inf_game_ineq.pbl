@@ -1,0 +1,6 @@
+(* top one diverges *)
+
+let rec f f1 = f1 (fun () -> f f1; ()); ()
+in f
+|||_((unit -> unit) -> unit) -> unit
+fun f1 -> f1 (fun () -> ()); ()

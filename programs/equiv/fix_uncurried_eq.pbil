@@ -1,0 +1,11 @@
+fun fi ->
+  let (f, i) = fi in
+  let rec X j = f (X, j)
+  in X i
+
+|||_(((((int -> int) * int) -> int) *  int) -> int)
+
+let rec X fi =
+  let (f, i) = fi in
+  f ((fun j -> X (f, j)), i)
+in X

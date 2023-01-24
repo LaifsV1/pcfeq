@@ -1,0 +1,10 @@
+fun f -> fun i ->
+  let rec X j = f X j
+  in X i
+
+|||_(((int -> int) -> int -> int) -> int -> int)
+
+fun f -> fun i ->
+  let rec X j = f X (j-1)
+  in X i
+

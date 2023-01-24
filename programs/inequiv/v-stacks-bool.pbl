@@ -1,0 +1,84 @@
+(* needs bound=14 *)
+
+fun f -> fun b ->
+  let rec X d = f (X, fun _ ->  d)
+  in X b
+
+|||_((((bool -> bool) * (bool -> bool)) -> bool) -> bool -> bool)
+
+fun f -> fun b ->
+  f ((fun _ -> _bot_), fun _ ->  b)
+
+(***
+Distinguishing context (replace [] with the terms above)
+
+( [] )(fun xfd -> let (X, fd) = xfd in if (fd ()) then X false else true ) true
+
+***)
+
+(* example 2 *)
+
+(** trace
+
+LHS:
+pr_ret idx_0
+op_app idx_0 af_0
+pr_ret idx_0
+op_app idx_0 ac_1
+pr_app af_0 (fix X. (fun d -> ((af_0 ) (X , (fun _ -> d)))), (fun _ -> (ac_1)))
+op_app idx_1 ac_2
+pr_ret ac_1
+op_app idx_0 ac_3
+pr_app af_0 ((fix X. fun d -> ((af_0) (X, (fun _ -> d)))), (fun _ -> (ac_3)))
+op_app idx_1 ac_2
+pr_ret ac_3
+op_ret ac_4
+pr_ret ac_4
+op_ret ac_5
+pr_ret ac_5
+
+RHS:
+pr_ret idx_0
+op_app idx_0 af_0
+pr_ret idx_0
+op_app idx_0 ac_1
+pr_app af_0 ((fun _ -> _bot_), (fun _ -> (ac_1)))
+op_app idx_1 ac_2
+pr_ret ac_1
+op_app idx_0 ac_3
+<DIVERGES>
+
+========
+In LaTeX:
+$M$:
+$\lpropret{0} \to 
+\lopapp{0}{af_0} \to 
+\lpropret{0} \to  
+\lopapp{0}{ac_1} \to
+\lpropapp{af_0}{fix X. (\lambda d . ((af_0 ) (X , (\lambda x . d)))), (\lambda x . (ac_1)))} \to
+\lopapp{1}{ac_2} \to
+\lpropret{ac_1} \to 
+\lopapp{0}{ac_3} \to
+\lpropapp{af_0}{fix X. (\lambda d . ((af_0 ) (X , (\lambda x . d)))), (\lambda x . (ac_3)))} \to
+\lopapp{1}{ac_2} \to
+\lpropret{ac_3} \to 
+\lopret{ac_4} \to 
+\lpropret{ac_4} \to 
+\lopret{ac_5} \to 
+\lpropret{ac_5} \to 
+\bot
+$
+
+$N$:
+$\lpropret{0} \to 
+\lopapp{0}{af_0} \to 
+\lpropret{0} \to  
+\lopapp{0}{ac_1} \to
+\lpropapp{af_0}{(\lambda x . \bot), (\lambda x . ac_1)} \to
+\lopapp{1}{ac_2} \to
+\lpropret{ac_1} \to 
+\lopapp{0}{ac_3} \to
+\bot
+$
+
+**)

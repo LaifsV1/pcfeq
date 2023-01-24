@@ -1,0 +1,5 @@
+let rec f f1 = f1 (fun () -> f f1; _bot_); _bot_
+in f
+|||_((unit -> unit) -> unit) -> unit
+let rec f f1 = f1 (fun () -> _bot_); _bot_
+in f

@@ -1,0 +1,9 @@
+fun f -> fun i ->
+  let rec X j = f j X
+  in X i
+
+|||_((int -> (int -> int) -> int) -> int -> int)
+
+let rec X f = fun i ->
+  f i (fun j -> X f j)
+in X

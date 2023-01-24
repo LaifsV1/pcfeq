@@ -1,0 +1,15 @@
+let rec X () = fun f -> fun i ->
+  f (fun b -> if b then 
+        (fun j -> X () f j)
+        else (fun _ ->  i))
+  in X ()
+
+|||_((((bool -> int -> int)) -> int) -> int -> int)
+
+let rec X count = fun f -> fun i ->
+  f (fun b -> if b then 
+        (fun j -> if (count > 0) then X (count-1) f j else _bot_)
+        else (fun _ -> i))
+in X 1
+
+
