@@ -3,6 +3,8 @@
 # pcfeq
 Bisimulation checking tool for PCFv programs. `pcfeq` performs a bounded symbolic execution to check for equality of PCFv programs. It is written in OCaml and makes use of Z3 to solve constraints on symbolic constants.
 
+Publication: [10.1109/LICS56636.2023.10175778](https://doi.org/10.1109/LICS56636.2023.10175778)
+
 ## Directory Structure
 
 Directories present under the main `pcfeq` directory:
